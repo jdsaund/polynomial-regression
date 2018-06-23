@@ -5,6 +5,7 @@ const tf = require('@tensorflow/tfjs')
 class Polynomial {
   constructor (coefficients) {
     this.coefficients = coefficients
+    this.degree = coefficients.length - 1
   }
 
   /**
