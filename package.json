@@ -8,5 +8,10 @@
     "test": "test"
   },
   "author": "Jolyon Saunders",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@tensorflow/tfjs": "^0.11.7",
+    "@tensorflow/tfjs-core": "^0.11.9",
+    "@tensorflow/tfjs-node": "^0.1.7"
+  }
 }
