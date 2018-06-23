@@ -3,6 +3,11 @@
 const tf = require('@tensorflow/tfjs')
 
 class Polynomial {
+  /**
+   * constructor - Creates a Polynomial.
+   *
+   * @param  {Tensor} coefficients The coefficient values of the polynomial
+   */
   constructor (coefficients) {
     this.coefficients = coefficients
     this.degree = coefficients.length - 1
@@ -11,8 +16,8 @@ class Polynomial {
   /**
    * evaluate - Evaluates a the value for a given tensor
    *
-   * @param  {type} x The tensor containing the point(s)
-   * @return {type}   The tensor of values
+   * @param  {Tensor} x The tensor containing the point(s)
+   * @return {Tensor}   The tensor of values
    */
   evaluateTensor (x) {
     return tf.tidy(() => {
