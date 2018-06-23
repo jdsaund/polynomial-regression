@@ -10,9 +10,9 @@ const randomCoefficient = (sigma) => tf.randomNormal([1], 0, sigma)
 const initialTrainingCoefficient = (sigma) => tf.variable(randomCoefficient(sigma))
 
 // This function returns a Polynomial with coefficeints defined by an initialiser function.
-const polynomialFromInitialiser = (degree, initialiser) => {
+const polynomialFromInitialiser = (degree, initialiser, sigma) => {
   const coefficients = Array.apply(null, Array(degree + 1))
-    .map(_ => initialiser)
+    .map(_ => initialiser.call(sigma))
 
   return new Polynomial(coefficients)
 }
@@ -25,8 +25,8 @@ class PolynomialFactory {
    * @param  {number} sigma The standard deviation of the coefficients.
    * @return {Polynomial} The Polynomial.
    */
-  static randomPolynomial (degree, sigma = 0.04) {
-    return polynomialFromInitialiser(degree, randomCoefficient(sigma))
+  static randomPolynomial (degree, sigma = 1.0) {
+    return polynomialFromInitialiser(degree, randomCoefficient, sigma)
   }
 
   /**
@@ -38,7 +38,7 @@ class PolynomialFactory {
    * @return {Polynomial} The Polynomial.
    */
   static trainingPolynomial (degree, sigma = 1.0) {
-    return polynomialFromInitialiser(degree, initialTrainingCoefficient(sigma))
+    return polynomialFromInitialiser(degree, initialTrainingCoefficient, sigma)
   }
 }
 
