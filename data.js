@@ -1,10 +1,7 @@
 const tf = require('@tensorflow/tfjs')
-const PolynomialFactory = require('./PolynomialFactory')
 
-function generateData (numPoints, degree, sigma = 0.04) {
+function generateData (numPoints, polynomial) {
   return tf.tidy(() => {
-    const polynomial = PolynomialFactory.randomPolynomial(degree, sigma)
-
     const xs = tf.randomUniform([numPoints], -1, 1)
 
     // Generate polynomial data

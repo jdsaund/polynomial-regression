@@ -33,8 +33,20 @@ async function train (xs, ys, numIterations) {
   }
 }
 
+async function printCoefficients (polynomial) {
+  polynomial.coefficients.forEach(async param => {
+    const value = await param.data()
+    console.log(value)
+  })
+}
+
 async function learnCoefficients () {
-  const trainingData = generateData(100, degree)
+  const truePolynomial = PolynomialFactory.randomPolynomial(degree, 1.0)
+
+  console.log('true')
+  printCoefficients(truePolynomial)
+
+  const trainingData = generateData(100, truePolynomial)
 
   const predictionsBefore = predict(trainingData.xs)
 
@@ -42,7 +54,9 @@ async function learnCoefficients () {
   await train(trainingData.xs, trainingData.ys, numIterations)
 
   const predictionsAfter = predict(trainingData.xs)
-  console.log(`{a: ${await params.coefficients[3].data()}, b: ${await params.coefficients[2].data()}}, c: ${await params.coefficients[1].data()}, d: ${await params.coefficients[0].data()}`)
+
+  console.log('fitted')
+  printCoefficients(params)
 
   tf.dispose(predictionsBefore)
   tf.dispose(predictionsAfter)
