@@ -42,24 +42,16 @@ async function printCoefficients (polynomial) {
 
 async function learnCoefficients () {
   const truePolynomial = PolynomialFactory.randomPolynomial(degree, 1.0)
+  const trainingData = generateData(100, truePolynomial)
 
   console.log('true')
   printCoefficients(truePolynomial)
 
-  const trainingData = generateData(100, truePolynomial)
-
-  const predictionsBefore = predict(trainingData.xs)
-
   // Train the model!
   await train(trainingData.xs, trainingData.ys, numIterations)
 
-  const predictionsAfter = predict(trainingData.xs)
-
   console.log('fitted')
   printCoefficients(params)
-
-  tf.dispose(predictionsBefore)
-  tf.dispose(predictionsAfter)
 }
 
 learnCoefficients()
