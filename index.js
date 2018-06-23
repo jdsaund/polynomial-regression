@@ -3,6 +3,7 @@
 const tf = require('@tensorflow/tfjs')
 const tfnode = require('@tensorflow/tfjs-node')
 const generateData = require('./data')
+const Polynomial = require('./Polynomial')
 
 const numIterations = 500
 const degree = 3
@@ -41,11 +42,9 @@ async function train (xs, ys, numIterations) {
 }
 
 async function learnCoefficients () {
-  const trueCoefficients = {a: -0.8, b: -0.2, c: 0.9, d: 0.5}
-  const trainingData = generateData(100, trueCoefficients)
+  const trainingData = generateData(100, degree)
 
   const predictionsBefore = predict(trainingData.xs)
-  console.log(trueCoefficients)
 
   // Train the model!
   await train(trainingData.xs, trainingData.ys, numIterations)
