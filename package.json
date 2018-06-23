@@ -1,0 +1,12 @@
+{
+  "name": "polynomial-regressor",
+  "version": "1.0.0",
+  "description": "An interactive app to fit polynomials to data",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "test"
+  },
+  "author": "Jolyon Saunders",
+  "license": "ISC"
+}
