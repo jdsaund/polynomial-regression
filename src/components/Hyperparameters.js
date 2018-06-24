@@ -45,20 +45,18 @@ class Hyperparameters extends Component {
   updateNumeric (event) {
     const value = parseFloat(event.target.value)
     if (value) {
-      this.setState({
-        [event.target.id]: value
-      })
-
-      this.props.onChange(this.state)
+      this.setState(
+        {[event.target.id]: value},
+        () => this.props.onChange(this.state)
+      )
     }
   }
 
   handleUpdate (event) {
-    this.setState({
-      [event.target.id]: event.target.value
-    })
-
-    this.props.onChange(this.state)
+    this.setState(
+      {[event.target.id]: event.target.value},
+      () => this.props.onChange(this.state)
+    )
   }
 
   render () {
