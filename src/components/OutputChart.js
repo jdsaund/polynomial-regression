@@ -24,6 +24,7 @@ class OutputChart extends Component {
               }]
             }
           }}
+          height={400}
         />
       </div>
     )

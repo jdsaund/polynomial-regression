@@ -46,7 +46,7 @@ class App extends Component {
       <div className='App'>
         <div className='header teal white-text section'>
           <Row className='center'>
-            <h1>Polynomial Regressor</h1>
+            <h3>Polynomial Regressor</h3>
           </Row>
         </div>
         <div className='header'>
