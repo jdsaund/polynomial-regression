@@ -5,10 +5,7 @@ import Data from './components/Data'
 import Training from './components/Training'
 import Output from './components/Output'
 
-import ChartData from './model/ChartData'
-
 import generateData from './services/Data/DataSynthesizer'
-import tensorDataToChartData from './services/Data/DataRasterizer'
 import PolynomialFactory from './services/PolynomialRegression/PolynomialFactory'
 import PolynomialRegressor from './services/PolynomialRegression/PolynomialRegressor'
 
@@ -44,15 +41,6 @@ class App extends Component {
     })
   }
 
-  componentDidMount () {
-    return tensorDataToChartData(this.trainingData.xs, this.trainingData.ys)
-      .then(data => {
-        return this.setState({
-          datasets: [ChartData('Training data', data)]
-        })
-      })
-  }
-
   render () {
     return (
       <div className='App'>
@@ -70,7 +58,7 @@ class App extends Component {
               <Data />
             </Col>
             <Col s={6}>
-              <Output fitted={this.state.fitted} datasets={this.state.datasets} />
+              <Output fitted={this.state.fitted} trainingData={this.trainingData} />
             </Col>
             <Col s={3}>
               <Training onChange={(isTraining) => this.train(isTraining)} />

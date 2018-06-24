@@ -2,13 +2,26 @@ import React, { Component } from 'react'
 import {Row} from 'react-materialize'
 import OutputChart from './OutputChart'
 
+import ChartData from '../model/ChartData'
+import tensorDataToChartData from '../services/Data/DataRasterizer'
+
 class Output extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      datasets: [],
       coefficients: [],
       fitted: props.fitted
     }
+  }
+
+  componentDidMount () {
+    return tensorDataToChartData(this.props.trainingData.xs, this.props.trainingData.ys)
+      .then(data => {
+        return this.setState({
+          datasets: [ChartData('Training data', data)]
+        })
+      })
   }
 
   componentDidUpdate (prevProps) {
@@ -42,7 +55,7 @@ class Output extends Component {
               )
             })}
           </ul>
-          <OutputChart datasets={this.props.datasets || []} />
+          <OutputChart datasets={this.state.datasets} />
         </Row>
       </div>
     )
