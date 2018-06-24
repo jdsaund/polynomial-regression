@@ -1,7 +1,18 @@
 import React, { Component } from 'react'
-import {Row, Input, Collapsible, CollapsibleItem, Button} from 'react-materialize'
+import {Row, Collapsible, CollapsibleItem, Button} from 'react-materialize'
+import InputNumber from './InputNumber'
 
 class Data extends Component {
+  updateDegree (event) {
+    const value = parseInt(event.target.value)
+    if (value) {
+      this.setState(
+        {'degree': value},
+        () => this.props.onChange(this.state)
+      )
+    }
+  }
+
   render () {
     return (
       <div>
@@ -12,10 +23,7 @@ class Data extends Component {
           <Collapsible accordion defaultActiveKey={0}>
             <CollapsibleItem header='Generate data' icon='cached'>
               <Row>
-                <Input placeholder='Placeholder' label='Degree' defaultValue='3' />
-              </Row>
-              <Row>
-                <Input placeholder='Placeholder' label='Sigma' defaultValue='1.0' />
+                <InputNumber label='Degree' onChange={this.updateDegree.bind(this)} defaultValue={3} />
               </Row>
               <Row>
                 <Button waves='light' onClick={this.props.startGenerate}>Generate</Button>
