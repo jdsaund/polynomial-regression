@@ -6,6 +6,10 @@ import Training from './components/Training'
 import Output from './components/Output'
 
 class App extends Component {
+  train (isTraining) {
+    console.log(isTraining)
+  }
+
   render () {
     return (
       <div className='App'>
@@ -26,7 +30,7 @@ class App extends Component {
               <Output />
             </Col>
             <Col s={3}>
-              <Training />
+              <Training onChange={(isTraining) => this.train(isTraining)} />
             </Col>
           </Row>
         </div>
