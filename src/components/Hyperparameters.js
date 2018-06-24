@@ -2,36 +2,7 @@ import React, { Component } from 'react'
 import {Row, Col} from 'react-materialize'
 import InputSelect from './InputSelect'
 import InputNumber from './InputNumber'
-
-const degreeConfig = {
-  id: 'degree',
-  defaultOption: '3'
-}
-
-const learningRateConfig = {
-  id: 'learningRate',
-  defaultOption: '0.25',
-  options: [
-    '0.05',
-    '0.10',
-    '0.25',
-    '0.50',
-    '0.75',
-    '1.00'
-  ]
-}
-
-const optimiserConfig = {
-  id: 'optimiser',
-  defaultOption: 'SGD',
-  options: ['SGD']
-}
-
-const lossFunctionConfig = {
-  id: 'lossFunction',
-  defaultOption: 'Mean Squared Error',
-  options: ['Mean Squared Error']
-}
+import Defaults from '../config/Defaults'
 
 class Hyperparameters extends Component {
   updateNumeric (event) {
@@ -62,16 +33,16 @@ class Hyperparameters extends Component {
         <Row>
           <Col offset='s2' s={12}>
             <Col s={2}>
-              <InputNumber label='Degree' id={degreeConfig.id} onChange={this.updateNumeric.bind(this)} defaultValue={degreeConfig.defaultOption} />
+              <InputNumber label='Degree' id={'degree'} onChange={this.updateNumeric.bind(this)} defaultValue={Defaults.degree} />
             </Col>
             <Col s={2}>
-              <InputSelect optionValues={learningRateConfig.options} label='Learning rate' id={learningRateConfig.id} onChange={this.updateNumeric.bind(this)} />
+              <InputSelect optionValues={['0.05', '0.10', '0.25', '0.50', '0.75', '1.00']} label='Learning rate' id={'learningRate'} onChange={this.updateNumeric.bind(this)} defaultValue={Defaults.learningRate} />
             </Col>
             <Col s={2}>
-              <InputSelect optionValues={optimiserConfig.options} label='Optimiser' id={optimiserConfig.id} onChange={this.handleUpdate.bind(this)} />
+              <InputSelect optionValues={['SGD']} label='Optimiser' id={'optimiser'} onChange={this.handleUpdate.bind(this)} defaultOption={Defaults.optimizer} />
             </Col>
             <Col s={2}>
-              <InputSelect optionValues={lossFunctionConfig.options} label='Loss function' id={lossFunctionConfig.id} onChange={this.handleUpdate.bind(this)} />
+              <InputSelect optionValues={['Mean Squared Error']} label='Loss function' id={'lossFunction'} onChange={this.handleUpdate.bind(this)} defaultOption={Defaults.lossFunction} />
             </Col>
           </Col>
         </Row>

@@ -4,6 +4,7 @@ import Hyperparameters from './components/Hyperparameters'
 import Data from './components/Data'
 import Training from './components/Training'
 import Output from './components/Output'
+import Defaults from './config/Defaults'
 
 import generateData from './services/Data/DataSynthesizer'
 import PolynomialFactory from './services/PolynomialRegression/PolynomialFactory'
@@ -13,20 +14,20 @@ class App extends Component {
   constructor (props) {
     super(props)
     const defaultHyperparameters = {
-      degree: 3
+      degree: Defaults.degree
     }
-    this.truePolynomial = PolynomialFactory.randomPolynomial(defaultHyperparameters.degree, 1.0)
+    this.truePolynomial = PolynomialFactory.randomPolynomial(defaultHyperparameters.degree)
     this.state = {
-      trainingData: generateData(1000, this.truePolynomial),
+      trainingData: generateData(Defaults.numPoints, this.truePolynomial),
       hyperparameters: defaultHyperparameters,
       dataOptions: defaultHyperparameters
     }
   }
 
   async train () {
-    const degree = (this.state.hyperparameters || {}).degree || 3
-    const learningRate = (this.state.hyperparameters || {}).learningRate || 0.25
-    const numIterations = 500
+    const degree = (this.state.hyperparameters || {}).degree || Defaults.degree
+    const learningRate = (this.state.hyperparameters || {}).learningRate || Defaults.learningRate
+    const numIterations = Defaults.numIterations
     const regressor = new PolynomialRegressor(degree, learningRate, numIterations)
 
     // Train the model!
@@ -50,9 +51,9 @@ class App extends Component {
   }
 
   generate () {
-    this.truePolynomial = PolynomialFactory.randomPolynomial(this.state.dataOptions.degree, 1.0)
+    this.truePolynomial = PolynomialFactory.randomPolynomial(this.state.dataOptions.degree)
     return this.setState({
-      trainingData: generateData(1000, this.truePolynomial)
+      trainingData: generateData(Defaults.numPoints, this.truePolynomial)
     })
   }
 

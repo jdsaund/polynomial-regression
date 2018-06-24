@@ -5,13 +5,13 @@ class InputNumber extends Component {
   render () {
     return (
       <Input placeholder='A number'
-        defaultValue={this.props.defaultValue || '0'}
+        defaultValue={this.props.defaultValue || '1'}
         id={this.props.id}
         label={this.props.label || 'Label'}
         type='number'
         className='validate'
         onChange={this.props.onChange}
-        min='0' />
+        min='1' />
     )
   }
 }
