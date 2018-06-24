@@ -18,7 +18,7 @@ class App extends Component {
       }
     }
     this.truePolynomial = PolynomialFactory.randomPolynomial(this.state.hyperparameters.degree, 1.0)
-    this.trainingData = generateData(100, this.truePolynomial)
+    this.trainingData = generateData(1000, this.truePolynomial)
   }
 
   async train () {

@@ -49,7 +49,7 @@ class Output extends Component {
     if (polynomial) {
       return DataRasterizer.rasterizePolynomial(polynomial)
         .then(data => {
-          this.fittedChartData = ChartData('Fitted curve', data, 'pink', true)
+          this.fittedChartData = ChartData('Fitted curve', data, 'red', true)
           const datasets = [this.fittedChartData, this.trainingChartData]
           return this.setState({
             datasets: datasets
