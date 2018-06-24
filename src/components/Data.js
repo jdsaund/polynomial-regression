@@ -29,8 +29,8 @@ class Data extends Component {
                 <Button waves='light' onClick={this.props.startGenerate}>Generate</Button>
               </Row>
             </CollapsibleItem>
-            <CollapsibleItem header='Upload .csv' icon='cloud_upload'>
-              Lorem ipsum dolor sit amet.
+            <CollapsibleItem header='Upload .csv' icon='cloud_upload' className='disabled'>
+              Coming soon™.
             </CollapsibleItem>
           </Collapsible>
         </Row>
