@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {Row} from 'react-materialize'
-import OutputChart from './OutputChart'
+import OutputChart from '../components/OutputChart'
 import ChartData from '../model/ChartData'
 import DataRasterizer from '../services/Data/DataRasterizer'
 

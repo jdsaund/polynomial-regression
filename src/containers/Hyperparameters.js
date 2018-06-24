@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Row, Col} from 'react-materialize'
-import InputSelect from './InputSelect'
-import InputNumber from './InputNumber'
+import InputSelect from '../components/InputSelect'
+import InputNumber from '../components/InputNumber'
 import Defaults from '../config/Defaults'
 import Optimizers from '../config/Optimizers'
 

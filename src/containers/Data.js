@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {Row, Collapsible, CollapsibleItem, Button} from 'react-materialize'
-import InputNumber from './InputNumber'
+import InputNumber from '../components/InputNumber'
 
 class Data extends Component {
   updateDegree (event) {
