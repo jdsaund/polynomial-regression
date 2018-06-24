@@ -5,9 +5,33 @@ import Data from './components/Data'
 import Training from './components/Training'
 import Output from './components/Output'
 
+import generateData from './services/PolynomialRegression/data'
+import PolynomialFactory from './services/PolynomialRegression/PolynomialFactory'
+import PolynomialRegressor from './services/PolynomialRegression/PolynomialRegressor'
+
+let hyperparameters = {}
+
 class App extends Component {
-  train (isTraining) {
-    console.log(isTraining)
+  constructor (props) {
+    super(props)
+    this.state = {}
+  }
+
+  async train () {
+    const degree = hyperparameters.degree || 3
+    const learningRate = hyperparameters.learningRate || 0.25
+    const numIterations = 500
+
+    const truePolynomial = PolynomialFactory.randomPolynomial(degree, 1.0)
+    const trainingData = generateData(100, truePolynomial)
+    const regressor = new PolynomialRegressor(degree, learningRate, numIterations)
+
+    // Train the model!
+    const fitted = await regressor.train(trainingData.xs, trainingData.ys, numIterations)
+
+    this.setState({
+      fitted: fitted
+    })
   }
 
   render () {
@@ -19,7 +43,10 @@ class App extends Component {
           </Row>
         </div>
         <div className='header'>
-          <Hyperparameters onChange={(newParams) => console.log(newParams)} />
+          <Hyperparameters onChange={(newParams) => {
+            hyperparameters = newParams
+            return null
+          }} />
         </div>
         <div className='header white black-text'>
           <Row>
@@ -27,7 +54,7 @@ class App extends Component {
               <Data />
             </Col>
             <Col s={6}>
-              <Output />
+              <Output fitted={this.state.fitted} />
             </Col>
             <Col s={3}>
               <Training onChange={(isTraining) => this.train(isTraining)} />

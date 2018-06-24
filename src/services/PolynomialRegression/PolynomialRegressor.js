@@ -56,4 +56,4 @@ class PolynomialRegressor {
   }
 }
 
-module.exports = PolynomialRegressor
+export default PolynomialRegressor
