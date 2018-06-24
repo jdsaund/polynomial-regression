@@ -42,7 +42,7 @@ class Output extends Component {
               )
             })}
           </ul>
-          <OutputChart />
+          <OutputChart datasets={this.props.datasets || []} />
         </Row>
       </div>
     )

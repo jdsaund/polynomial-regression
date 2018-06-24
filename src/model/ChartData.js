@@ -1,5 +1,3 @@
-'use strict'
-
 const ChartData = (label, data, colour = 'teal', showLine = true) => {
   return {
     label: label,
