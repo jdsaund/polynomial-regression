@@ -22,6 +22,9 @@ class App extends Component {
     }
   }
 
+  /**
+   * async train - Trains the model
+   */
   async train () {
     const degree = this.state.hyperparameters.degree
     const learningRate = this.state.hyperparameters.learningRate
@@ -38,12 +41,23 @@ class App extends Component {
     })
   }
 
+  /**
+   * updateDataOptions - Updates the data options and stores them in the state.
+   *
+   * @param  {object} childState The new data options.
+   */
   updateDataOptions (childState) {
     this.setState({
       dataOptions: childState
     })
   }
 
+
+  /**
+   * updateHyperparameters - Updates the hyperparameters and stores them in the state.
+   *
+   * @param  {object} childState The new hyperparameters.
+   */
   updateHyperparameters (childState) {
     const updated = Object.assign(this.state.hyperparameters, childState)
     this.setState({
@@ -51,6 +65,11 @@ class App extends Component {
     })
   }
 
+  /**
+   * generate - Generates training data and stores it in the state.
+   *
+   * @return {Promise} The Promise.
+   */
   generate () {
     this.truePolynomial = PolynomialFactory.randomPolynomial(this.state.dataOptions.degree)
     return this.setState({
