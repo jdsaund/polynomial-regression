@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-import {Row, Col} from 'react-materialize'
+import { Row, Col } from 'react-materialize'
 import Hyperparameters from './components/Hyperparameters'
 import Data from './components/Data'
 import Training from './components/Training'
 import Output from './components/Output'
 import Defaults from './config/Defaults'
 import Optimizers from './config/Optimizers'
-
 import generateData from './services/Data/DataSynthesizer'
 import PolynomialFactory from './services/PolynomialRegression/PolynomialFactory'
 import PolynomialRegressor from './services/PolynomialRegression/PolynomialRegressor'
@@ -14,22 +13,20 @@ import PolynomialRegressor from './services/PolynomialRegression/PolynomialRegre
 class App extends Component {
   constructor (props) {
     super(props)
-    const defaultHyperparameters = {
-      degree: Defaults.degree
-    }
-    this.truePolynomial = PolynomialFactory.randomPolynomial(defaultHyperparameters.degree)
+
+    this.truePolynomial = PolynomialFactory.randomPolynomial(Defaults.degree)
     this.state = {
       trainingData: generateData(Defaults.numPoints, this.truePolynomial),
-      hyperparameters: defaultHyperparameters,
-      dataOptions: defaultHyperparameters
+      hyperparameters: Defaults,
+      dataOptions: {degree: Defaults.degree}
     }
   }
 
   async train () {
-    const degree = (this.state.hyperparameters || {}).degree || Defaults.degree
-    const learningRate = (this.state.hyperparameters || {}).learningRate || Defaults.learningRate
-    const numIterations = (this.state.hyperparameters || {}).numIterations || Defaults.numIterations
-    const optimizerKey = (this.state.hyperparameters || {}).optimizer || Defaults.optimizer
+    const degree = this.state.hyperparameters.degree
+    const learningRate = this.state.hyperparameters.learningRate
+    const numIterations = this.state.hyperparameters.numIterations
+    const optimizerKey = this.state.hyperparameters.optimizer
     const optimizer = Optimizers[optimizerKey]
     const regressor = new PolynomialRegressor(degree, learningRate, optimizer)
 

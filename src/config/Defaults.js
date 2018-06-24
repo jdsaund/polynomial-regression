@@ -3,6 +3,5 @@ module.exports = {
   learningRate: 0.25,
   numIterations: 500,
   numPoints: 1000,
-  optimiser: 'SGD',
-  lossFunction: 'meanSquaredError'
+  optimiser: 'SGD'
 }
