@@ -43,19 +43,7 @@ class Output extends Component {
     }
 
     if (prevProps.fitted !== this.props.fitted) {
-      this.updateCoefficients(this.props.fitted)
       this.updateTrainingOutput(this.props.fitted)
-    }
-  }
-
-  updateCoefficients (polynomial) {
-    if (polynomial) {
-      return Promise.all(polynomial.coefficients.map(param => param.data()))
-        .then(coeffs => {
-          return this.setState({
-            coefficients: coeffs
-          })
-        })
     }
   }
 
@@ -80,15 +68,6 @@ class Output extends Component {
         </Row>
         <Row>
           <OutputChart datasets={this.state.datasets} />
-        </Row>
-        <Row>
-          <ul>
-            {this.state.coefficients.map((coeff, index) => {
-              return (
-                <li key={index}>{coeff}</li>
-              )
-            })}
-          </ul>
         </Row>
       </div>
     )

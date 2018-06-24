@@ -18,12 +18,6 @@ class Training extends Component {
               Train<Icon right>play_arrow</Icon>
             </Button>
           </Row>
-          <Row>
-            Iterations: 1234
-          </Row>
-          <Row>
-            loss: 0.34
-          </Row>
         </div>
       </div>
     )
