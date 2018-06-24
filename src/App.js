@@ -77,7 +77,7 @@ class App extends Component {
               <Output fitted={this.state.fitted} trainingData={this.state.trainingData} />
             </Col>
             <Col s={3}>
-              <Training onChange={(isTraining) => this.train(isTraining)} />
+              <Training onChange={this.train.bind(this)} />
             </Col>
           </Row>
         </div>
