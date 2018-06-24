@@ -5,6 +5,7 @@ import Data from './components/Data'
 import Training from './components/Training'
 import Output from './components/Output'
 import Defaults from './config/Defaults'
+import Optimizers from './config/Optimizers'
 
 import generateData from './services/Data/DataSynthesizer'
 import PolynomialFactory from './services/PolynomialRegression/PolynomialFactory'
@@ -27,8 +28,10 @@ class App extends Component {
   async train () {
     const degree = (this.state.hyperparameters || {}).degree || Defaults.degree
     const learningRate = (this.state.hyperparameters || {}).learningRate || Defaults.learningRate
-    const numIterations = Defaults.numIterations
-    const regressor = new PolynomialRegressor(degree, learningRate)
+    const numIterations = (this.state.hyperparameters || {}).numIterations || Defaults.numIterations
+    const optimizerKey = (this.state.hyperparameters || {}).optimizer || Defaults.optimizer
+    const optimizer = Optimizers[optimizerKey]
+    const regressor = new PolynomialRegressor(degree, learningRate, optimizer)
 
     // Train the model!
     const fitted = await regressor.train(this.state.trainingData.xs, this.state.trainingData.ys, numIterations)
