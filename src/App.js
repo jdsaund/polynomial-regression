@@ -18,7 +18,8 @@ class App extends Component {
     this.truePolynomial = PolynomialFactory.randomPolynomial(defaultHyperparameters.degree, 1.0)
     this.state = {
       trainingData: generateData(1000, this.truePolynomial),
-      hyperparameters: defaultHyperparameters
+      hyperparameters: defaultHyperparameters,
+      dataOptions: defaultHyperparameters
     }
   }
 
