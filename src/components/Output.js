@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {Row} from 'react-materialize'
+import OutputChart from './OutputChart'
 
 class Output extends Component {
   constructor (props) {
@@ -41,6 +42,7 @@ class Output extends Component {
               )
             })}
           </ul>
+          <OutputChart />
         </Row>
       </div>
     )
