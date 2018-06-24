@@ -13,12 +13,14 @@ function generateData (numPoints, polynomial) {
 
     // Generate polynomial data
     const ys = polynomial.evaluateTensor(xs)
+    const noise = tf.randomNormal([numPoints], 0, 1.0)
+    const noisyYs = ys.add(noise)
 
     // Normalize the y values to the range 0 to 1.
-    const ymin = ys.min()
-    const ymax = ys.max()
+    const ymin = noisyYs.min()
+    const ymax = noisyYs.max()
     const yrange = ymax.sub(ymin)
-    const ysNormalized = ys.sub(ymin).div(yrange)
+    const ysNormalized = noisyYs.sub(ymin).div(yrange)
 
     return {
       xs: xs,
