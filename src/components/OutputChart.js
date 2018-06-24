@@ -1,34 +1,32 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Scatter } from 'react-chartjs-2'
 
-class OutputChart extends Component {
-  render () {
-    return (
-      <div className='chart'>
-        <Scatter
-          data={{
-            labels: ['Scatter'],
-            datasets: this.props.datasets
-          }}
-          options={{
-            maintainAspectRatio: false,
-            showLine: true,
-            scales: {
-              xAxes: [{
-                display: true,
-                labelString: 'x'
-              }],
-              yAxes: [{
-                display: true,
-                labelString: 'y'
-              }]
-            }
-          }}
-          height={400}
-        />
-      </div>
-    )
-  }
+const OutputChart = (props) => {
+  return (
+    <div className='chart'>
+      <Scatter
+        data={{
+          labels: ['Scatter'],
+          datasets: props.datasets
+        }}
+        options={{
+          maintainAspectRatio: false,
+          showLine: true,
+          scales: {
+            xAxes: [{
+              display: true,
+              labelString: 'x'
+            }],
+            yAxes: [{
+              display: true,
+              labelString: 'y'
+            }]
+          }
+        }}
+        height={400}
+      />
+    </div>
+  )
 }
 
 export default OutputChart
