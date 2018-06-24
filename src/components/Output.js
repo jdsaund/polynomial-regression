@@ -3,7 +3,7 @@ import {Row} from 'react-materialize'
 import OutputChart from './OutputChart'
 
 import ChartData from '../model/ChartData'
-import tensorDataToChartData from '../services/Data/DataRasterizer'
+import DataRasterizer from '../services/Data/DataRasterizer'
 
 class Output extends Component {
   constructor (props) {
@@ -16,7 +16,7 @@ class Output extends Component {
   }
 
   componentDidMount () {
-    return tensorDataToChartData(this.props.trainingData.xs, this.props.trainingData.ys)
+    return DataRasterizer.tensorDataToChartData(this.props.trainingData.xs, this.props.trainingData.ys)
       .then(data => {
         return this.setState({
           datasets: [ChartData('Training data', data)]
