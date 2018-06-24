@@ -15,7 +15,7 @@ class App extends Component {
           </Row>
         </div>
         <div className='header'>
-          <Hyperparameters />
+          <Hyperparameters onChange={(newParams) => console.log(newParams)} />
         </div>
         <div className='header white black-text'>
           <Row>

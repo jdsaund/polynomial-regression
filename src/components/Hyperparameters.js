@@ -2,56 +2,54 @@ import React, { Component } from 'react'
 import {Row, Col} from 'react-materialize'
 import InputSelect from './InputSelect'
 
+const degreeConfig = {
+  id: 'degree',
+  defaultOption: '3',
+  options: [
+    '0',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5'
+  ]
+}
+
+const learningRateConfig = {
+  id: 'learningRate',
+  defaultOption: '0.25',
+  options: [
+    '0.05',
+    '0.10',
+    '0.25',
+    '0.50',
+    '0.75',
+    '1.00'
+  ]
+}
+
+const optimiserConfig = {
+  id: 'optimiser',
+  defaultOption: 'SGD',
+  options: ['SGD']
+}
+
+const lossFunctionConfig = {
+  id: 'lossFunction',
+  defaultOption: 'Mean Squared Error',
+  options: ['Mean Squared Error']
+}
+
 class Hyperparameters extends Component {
-  updateOptimiser (event) {
-    console.log(`optimiser changed to ${event.target.value}`)
-  }
+  handleUpdate (event) {
+    this.setState({
+      [event.target.id]: event.target.value
+    })
 
-  updateLossFunction (event) {
-    console.log(`loss function changed to ${event.target.value}`)
-  }
-
-  updateLearningRate (event) {
-    console.log(`learning rate changed to ${event.target.value}`)
-  }
-
-  updateDegree (event) {
-    console.log(`degree changed to ${event.target.value}`)
+    this.props.onChange(this.state)
   }
 
   render () {
-    const degreeOpts = [
-      '0',
-      '1',
-      '2',
-      '3',
-      '4',
-      '5'
-    ]
-
-    const learningRateOpts = [
-      '0.05',
-      '0.10',
-      '0.25',
-      '0.50',
-      '0.75',
-      '1.00'
-    ]
-
-    const optimiserOpts = [
-      'SGD',
-      '9',
-      '8',
-      '7'
-    ]
-
-    const lossFunctionOpts = [
-      'Mean Squared Error',
-      '2',
-      '3',
-      '4'
-    ]
-
     return (
       <Row className='z-depth-2 white black-text offset-s2 section'>
         <Row>
@@ -62,16 +60,16 @@ class Hyperparameters extends Component {
         <Row>
           <Col offset='s2' s={12}>
             <Col s={2}>
-              <InputSelect optionValues={degreeOpts} label='Degree' onChange={this.updateDegree.bind(this)} />
+              <InputSelect optionValues={degreeConfig.options} label='Degree' id={degreeConfig.id} onChange={this.handleUpdate.bind(this)} />
             </Col>
             <Col s={2}>
-              <InputSelect optionValues={learningRateOpts} label='Learning rate' onChange={this.updateLearningRate.bind(this)} />
+              <InputSelect optionValues={learningRateConfig.options} label='Learning rate' id={learningRateConfig.id} onChange={this.handleUpdate.bind(this)} />
             </Col>
             <Col s={2}>
-              <InputSelect optionValues={optimiserOpts} label='Optimiser' onChange={this.updateOptimiser.bind(this)} />
+              <InputSelect optionValues={optimiserConfig.options} label='Optimiser' id={optimiserConfig.id} onChange={this.handleUpdate.bind(this)} />
             </Col>
             <Col s={2}>
-              <InputSelect optionValues={lossFunctionOpts} label='Loss function' onChange={this.updateLossFunction.bind(this)} />
+              <InputSelect optionValues={lossFunctionConfig.options} label='Loss function' id={lossFunctionConfig.id} onChange={this.handleUpdate.bind(this)} />
             </Col>
           </Col>
         </Row>

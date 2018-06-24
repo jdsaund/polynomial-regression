@@ -8,7 +8,7 @@ class InputSelect extends Component {
     })
 
     return (
-      <Input type='select' label={this.props.label || 'Label'} defaultValue={this.props.defaultValue || this.props.optionValues[0]} onChange={this.props.onChange}>
+      <Input type='select' label={this.props.label || 'Label'} defaultValue={this.props.defaultValue || this.props.optionValues[0]} onChange={this.props.onChange} id={this.props.id}>
         {options}
       </Input>
     )
