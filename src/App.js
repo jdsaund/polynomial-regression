@@ -12,13 +12,14 @@ import PolynomialRegressor from './services/PolynomialRegression/PolynomialRegre
 class App extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-      hyperparameters: {
-        degree: 3
-      }
+    const defaultHyperparameters = {
+      degree: 3
     }
-    this.truePolynomial = PolynomialFactory.randomPolynomial(this.state.hyperparameters.degree, 1.0)
-    this.trainingData = generateData(1000, this.truePolynomial)
+    this.truePolynomial = PolynomialFactory.randomPolynomial(defaultHyperparameters.degree, 1.0)
+    this.state = {
+      trainingData: generateData(1000, this.truePolynomial),
+      hyperparameters: defaultHyperparameters
+    }
   }
 
   async train () {
@@ -28,7 +29,7 @@ class App extends Component {
     const regressor = new PolynomialRegressor(degree, learningRate, numIterations)
 
     // Train the model!
-    const fitted = await regressor.train(this.trainingData.xs, this.trainingData.ys, numIterations)
+    const fitted = await regressor.train(this.state.trainingData.xs, this.state.trainingData.ys, numIterations)
 
     this.setState({
       fitted: fitted
@@ -38,6 +39,13 @@ class App extends Component {
   updateHyperparameters (childState) {
     this.setState({
       hyperparameters: childState
+    })
+  }
+
+  generate () {
+    this.truePolynomial = PolynomialFactory.randomPolynomial(this.state.hyperparameters.degree, 1.0)
+    return this.setState({
+      trainingData: generateData(1000, this.truePolynomial)
     })
   }
 
@@ -55,10 +63,10 @@ class App extends Component {
         <div className='header white black-text'>
           <Row>
             <Col s={3}>
-              <Data />
+              <Data startGenerate={this.generate.bind(this)} />
             </Col>
             <Col s={6}>
-              <Output fitted={this.state.fitted} trainingData={this.trainingData} />
+              <Output fitted={this.state.fitted} trainingData={this.state.trainingData} />
             </Col>
             <Col s={3}>
               <Training onChange={(isTraining) => this.train(isTraining)} />

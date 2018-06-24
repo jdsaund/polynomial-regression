@@ -18,7 +18,7 @@ class Data extends Component {
                 <Input placeholder='Placeholder' label='Sigma' defaultValue='1.0' />
               </Row>
               <Row>
-                <Button waves='light'>Generate</Button>
+                <Button waves='light' onClick={this.props.startGenerate}>Generate</Button>
               </Row>
             </CollapsibleItem>
             <CollapsibleItem header='Upload .csv' icon='cloud_upload'>

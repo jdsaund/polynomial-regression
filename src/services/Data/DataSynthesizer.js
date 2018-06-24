@@ -13,7 +13,7 @@ function generateData (numPoints, polynomial) {
 
     // Generate polynomial data
     const ys = polynomial.evaluateTensor(xs)
-    const noise = tf.randomNormal([numPoints], 0, 1.0)
+    const noise = tf.randomNormal([numPoints], 0, 0.3)
     const noisyYs = ys.add(noise)
 
     // Normalize the y values to the range 0 to 1.

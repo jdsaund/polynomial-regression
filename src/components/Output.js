@@ -18,16 +18,31 @@ class Output extends Component {
   }
 
   componentDidMount () {
-    return DataRasterizer.tensorDataToChartData(this.props.trainingData.xs, this.props.trainingData.ys)
-      .then(data => {
-        this.trainingChartData = ChartData('Training data', data)
+    this.updateTrainingData()
+      .then(() => {
         return this.setState({
           datasets: [this.trainingChartData]
         })
       })
   }
 
+  updateTrainingData () {
+    return DataRasterizer.tensorDataToChartData(this.props.trainingData.xs, this.props.trainingData.ys)
+      .then(data => {
+        this.trainingChartData = ChartData('Training data', data)
+      })
+  }
+
   componentDidUpdate (prevProps) {
+    if (prevProps.trainingData !== this.props.trainingData) {
+      this.updateTrainingData()
+        .then(() => {
+          return this.setState({
+            datasets: [this.trainingChartData]
+          })
+        })
+    }
+
     if (prevProps.fitted !== this.props.fitted) {
       this.updateCoefficients(this.props.fitted)
       this.updateTrainingOutput(this.props.fitted)
