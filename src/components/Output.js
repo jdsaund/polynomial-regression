@@ -35,9 +35,9 @@ class Output extends Component {
         </Row>
         <Row>
           <ul>
-            {this.state.coefficients.map(coeff => {
+            {this.state.coefficients.map((coeff, index) => {
               return (
-                <li>{coeff}</li>
+                <li key={index}>{coeff}</li>
               )
             })}
           </ul>

@@ -9,8 +9,6 @@ import generateData from './services/PolynomialRegression/data'
 import PolynomialFactory from './services/PolynomialRegression/PolynomialFactory'
 import PolynomialRegressor from './services/PolynomialRegression/PolynomialRegressor'
 
-let hyperparameters = {}
-
 class App extends Component {
   constructor (props) {
     super(props)
@@ -18,8 +16,8 @@ class App extends Component {
   }
 
   async train () {
-    const degree = hyperparameters.degree || 3
-    const learningRate = hyperparameters.learningRate || 0.25
+    const degree = (this.state.hyperparameters || {}).degree || 3
+    const learningRate = (this.state.hyperparameters || {}).learningRate || 0.25
     const numIterations = 500
 
     const truePolynomial = PolynomialFactory.randomPolynomial(degree, 1.0)
@@ -34,6 +32,12 @@ class App extends Component {
     })
   }
 
+  updateHyperparameters (childState) {
+    this.setState({
+      hyperparameters: childState
+    })
+  }
+
   render () {
     return (
       <div className='App'>
@@ -43,10 +47,7 @@ class App extends Component {
           </Row>
         </div>
         <div className='header'>
-          <Hyperparameters onChange={(newParams) => {
-            hyperparameters = newParams
-            return null
-          }} />
+          <Hyperparameters onChange={this.updateHyperparameters.bind(this)} />
         </div>
         <div className='header white black-text'>
           <Row>

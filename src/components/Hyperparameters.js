@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Row, Col} from 'react-materialize'
 import InputSelect from './InputSelect'
+import InputNumber from './InputNumber'
 
 const degreeConfig = {
   id: 'degree',
@@ -41,6 +42,17 @@ const lossFunctionConfig = {
 }
 
 class Hyperparameters extends Component {
+  updateNumeric (event) {
+    const value = parseFloat(event.target.value)
+    if (value) {
+      this.setState({
+        [event.target.id]: value
+      })
+
+      this.props.onChange(this.state)
+    }
+  }
+
   handleUpdate (event) {
     this.setState({
       [event.target.id]: event.target.value
@@ -60,10 +72,10 @@ class Hyperparameters extends Component {
         <Row>
           <Col offset='s2' s={12}>
             <Col s={2}>
-              <InputSelect optionValues={degreeConfig.options} label='Degree' id={degreeConfig.id} onChange={this.handleUpdate.bind(this)} />
+              <InputNumber label='Degree' id={degreeConfig.id} onChange={this.updateNumeric.bind(this)} />
             </Col>
             <Col s={2}>
-              <InputSelect optionValues={learningRateConfig.options} label='Learning rate' id={learningRateConfig.id} onChange={this.handleUpdate.bind(this)} />
+              <InputSelect optionValues={learningRateConfig.options} label='Learning rate' id={learningRateConfig.id} onChange={this.updateNumeric.bind(this)} />
             </Col>
             <Col s={2}>
               <InputSelect optionValues={optimiserConfig.options} label='Optimiser' id={optimiserConfig.id} onChange={this.handleUpdate.bind(this)} />
