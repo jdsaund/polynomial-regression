@@ -8,6 +8,8 @@ import DataRasterizer from '../services/Data/DataRasterizer'
 class Output extends Component {
   constructor (props) {
     super(props)
+    this.trainingChartData = null
+    this.fittedChartData = null
     this.state = {
       datasets: [],
       coefficients: [],
@@ -18,8 +20,9 @@ class Output extends Component {
   componentDidMount () {
     return DataRasterizer.tensorDataToChartData(this.props.trainingData.xs, this.props.trainingData.ys)
       .then(data => {
+        this.trainingChartData = ChartData('Training data', data)
         return this.setState({
-          datasets: [ChartData('Training data', data)]
+          datasets: [this.trainingChartData]
         })
       })
   }
@@ -27,15 +30,29 @@ class Output extends Component {
   componentDidUpdate (prevProps) {
     if (prevProps.fitted !== this.props.fitted) {
       this.updateCoefficients(this.props.fitted)
+      this.updateTrainingOutput(this.props.fitted)
     }
   }
 
   updateCoefficients (polynomial) {
     if (polynomial) {
       return Promise.all(polynomial.coefficients.map(param => param.data()))
-        .then((coeffs) => {
+        .then(coeffs => {
           return this.setState({
             coefficients: coeffs
+          })
+        })
+    }
+  }
+
+  updateTrainingOutput (polynomial) {
+    if (polynomial) {
+      return DataRasterizer.rasterizePolynomial(polynomial)
+        .then(data => {
+          this.fittedChartData = ChartData('Fitted curve', data, 'pink', true)
+          const datasets = [this.fittedChartData, this.trainingChartData]
+          return this.setState({
+            datasets: datasets
           })
         })
     }
@@ -48,6 +65,9 @@ class Output extends Component {
           <h5>Output</h5>
         </Row>
         <Row>
+          <OutputChart datasets={this.state.datasets} />
+        </Row>
+        <Row>
           <ul>
             {this.state.coefficients.map((coeff, index) => {
               return (
@@ -55,7 +75,6 @@ class Output extends Component {
               )
             })}
           </ul>
-          <OutputChart datasets={this.state.datasets} />
         </Row>
       </div>
     )

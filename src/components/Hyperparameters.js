@@ -5,15 +5,7 @@ import InputNumber from './InputNumber'
 
 const degreeConfig = {
   id: 'degree',
-  defaultOption: '3',
-  options: [
-    '0',
-    '1',
-    '2',
-    '3',
-    '4',
-    '5'
-  ]
+  defaultOption: '3'
 }
 
 const learningRateConfig = {
@@ -70,7 +62,7 @@ class Hyperparameters extends Component {
         <Row>
           <Col offset='s2' s={12}>
             <Col s={2}>
-              <InputNumber label='Degree' id={degreeConfig.id} onChange={this.updateNumeric.bind(this)} />
+              <InputNumber label='Degree' id={degreeConfig.id} onChange={this.updateNumeric.bind(this)} defaultValue={degreeConfig.defaultOption} />
             </Col>
             <Col s={2}>
               <InputSelect optionValues={learningRateConfig.options} label='Learning rate' id={learningRateConfig.id} onChange={this.updateNumeric.bind(this)} />

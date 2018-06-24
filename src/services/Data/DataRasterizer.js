@@ -31,12 +31,12 @@ class DataRasterizer {
    * @param  {int} numPoints = 100 The number of points.
    * @return {Array} The chart data.
    */
-  static rasterizePolynomial (polynomial, xmin = -1.0, xmax = 1.0, numPoints = 100) {
+  static rasterizePolynomial (polynomial, xmin = -1.0, xmax = 1.0, numPoints = 20) {
     if (xmin >= xmax || numPoints <= 0) {
       throw new Error('Unexpected range or number of points.')
     }
 
-    const stride = (xmax - xmin) / numPoints
+    const stride = (xmax - xmin) / (numPoints - 1)
 
     const xs = Array.from({length: numPoints}, (x, i) => {
       return xmin + i * stride

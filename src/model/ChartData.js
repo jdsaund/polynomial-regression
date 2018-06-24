@@ -1,8 +1,8 @@
-const ChartData = (label, data, colour = 'teal', showLine = true) => {
+const ChartData = (label, data, colour = 'teal', showLine = false) => {
   return {
     label: label,
     fill: false,
-    showLine: false,
+    showLine: showLine,
     backgroundColor: colour,
     pointBorderColor: colour,
     pointBackgroundColor: '#fff',
@@ -11,7 +11,7 @@ const ChartData = (label, data, colour = 'teal', showLine = true) => {
     pointHoverBackgroundColor: colour,
     pointHoverBorderColor: colour,
     pointHoverBorderWidth: 2,
-    pointRadius: 3,
+    pointRadius: 1,
     pointHitRadius: 10,
     data: data
   }

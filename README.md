@@ -5,3 +5,5 @@ The CPU version of TensorFlow.js was used because this project is a lightweight 
 Coefficients encoded with tensors is abstracted with the Polynomial class. This was done to avoid code duplication and to abstract the individual TensorFlow API calls to a higher level concept of evaluating a point.
 
 A factory pattern was chosen to create common Polynomial objects. This reduced code complexity.
+
+Operations involving evaluating the data were kept as tensor ops where possible to take advantage vast parallelism and to avoid inefficiencies related to moving data in and out of the TensorFlow session.
