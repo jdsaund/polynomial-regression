@@ -14,9 +14,9 @@ class App extends Component {
   constructor (props) {
     super(props)
 
-    this.truePolynomial = PolynomialFactory.randomPolynomial(Defaults.degree)
+    const truePolynomial = PolynomialFactory.randomPolynomial(Defaults.degree)
     this.state = {
-      trainingData: generateData(Defaults.numPoints, this.truePolynomial),
+      trainingData: generateData(Defaults.numPoints, truePolynomial),
       hyperparameters: Defaults,
       dataOptions: {degree: Defaults.degree}
     }
@@ -33,7 +33,6 @@ class App extends Component {
     const optimizer = Optimizers[optimizerKey]
     const regressor = new PolynomialRegressor(degree, learningRate, optimizer)
 
-    // Train the model!
     const fitted = await regressor.train(this.state.trainingData.xs, this.state.trainingData.ys, numIterations)
 
     this.setState({
@@ -51,7 +50,6 @@ class App extends Component {
       dataOptions: childState
     })
   }
-
 
   /**
    * updateHyperparameters - Updates the hyperparameters and stores them in the state.
@@ -71,9 +69,9 @@ class App extends Component {
    * @return {Promise} The Promise.
    */
   generate () {
-    this.truePolynomial = PolynomialFactory.randomPolynomial(this.state.dataOptions.degree)
+    const truePolynomial = PolynomialFactory.randomPolynomial(this.state.dataOptions.degree)
     return this.setState({
-      trainingData: generateData(Defaults.numPoints, this.truePolynomial)
+      trainingData: generateData(Defaults.numPoints, truePolynomial)
     })
   }
 
