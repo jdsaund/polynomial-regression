@@ -45,8 +45,9 @@ class App extends Component {
   }
 
   updateHyperparameters (childState) {
+    const updated = Object.assign(this.state.hyperparameters, childState)
     this.setState({
-      hyperparameters: childState
+      hyperparameters: updated
     })
   }
 
