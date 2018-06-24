@@ -1,7 +1,4 @@
-'use-strict'
-
 const tf = require('@tensorflow/tfjs')
-const tfnode = require('@tensorflow/tfjs-node')
 const PolynomialFactory = require('./PolynomialFactory')
 
 class PolynomialRegressor {

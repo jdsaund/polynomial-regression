@@ -4,7 +4,7 @@ import InputNumber from './InputNumber'
 
 class Data extends Component {
   updateDegree (event) {
-    const value = parseInt(event.target.value)
+    const value = parseFloat(event.target.value)
     if (value) {
       this.setState(
         {'degree': value},
