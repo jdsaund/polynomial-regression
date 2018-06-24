@@ -17,7 +17,7 @@ const polynomialFromInitialiser = (degree, initialiser, sigma) => {
   return new Polynomial(coefficients)
 }
 
-class PolynomialFactory {
+module.exports = {
   /**
    * @static randomPolynomial - Creates a random Polynomial with normally distributed coefficients.
    *
@@ -25,9 +25,9 @@ class PolynomialFactory {
    * @param  {number} sigma The standard deviation of the coefficients.
    * @return {Polynomial} The Polynomial.
    */
-  static randomPolynomial (degree, sigma = 1.0) {
+  randomPolynomial: (degree, sigma = 1.0) => {
     return polynomialFromInitialiser(degree, randomCoefficient, sigma)
-  }
+  },
 
   /**
    * @static trainingPolynomial - Creates a Polynomial for training,
@@ -37,9 +37,7 @@ class PolynomialFactory {
    * @param  {number} sigma The standard deviation of the coefficients.
    * @return {Polynomial} The Polynomial.
    */
-  static trainingPolynomial (degree, sigma = 1.0) {
+  trainingPolynomial: (degree, sigma = 1.0) => {
     return polynomialFromInitialiser(degree, initialTrainingCoefficient, sigma)
   }
 }
-
-module.exports = PolynomialFactory
