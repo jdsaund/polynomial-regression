@@ -28,7 +28,7 @@ class App extends Component {
     const degree = (this.state.hyperparameters || {}).degree || Defaults.degree
     const learningRate = (this.state.hyperparameters || {}).learningRate || Defaults.learningRate
     const numIterations = Defaults.numIterations
-    const regressor = new PolynomialRegressor(degree, learningRate, numIterations)
+    const regressor = new PolynomialRegressor(degree, learningRate)
 
     // Train the model!
     const fitted = await regressor.train(this.state.trainingData.xs, this.state.trainingData.ys, numIterations)

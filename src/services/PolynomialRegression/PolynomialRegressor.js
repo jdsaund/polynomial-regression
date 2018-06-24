@@ -8,9 +8,8 @@ class PolynomialRegressor {
   /**
    * Creates a PolynomialRegressor.
    */
-  constructor (degree, learningRate = 0.5, numIterations = 500, optimizer = tf.train.sgd(learningRate)) {
+  constructor (degree, learningRate = 0.5, optimizer = tf.train.sgd(learningRate)) {
     this._learningRate = learningRate
-    this._numIterations = numIterations
     this._optimizer = optimizer
 
     this._params = PolynomialFactory.trainingPolynomial(degree)
@@ -42,9 +41,10 @@ class PolynomialRegressor {
    *
    * @param  {Tensor} xs The input values of the dataset.
    * @param  {Tensor} ys The output values of the dataset.
+   * @param  {int} numIterations The number of training iterations.
    */
-  async train (xs, ys) {
-    for (let iter = 0; iter < this._numIterations; iter++) {
+  async train (xs, ys, numIterations) {
+    for (let iter = 0; iter < numIterations; iter++) {
       this._optimizer.minimize(() => {
         // Feed the examples into the model
         const pred = this._predict(xs)
