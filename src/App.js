@@ -30,7 +30,7 @@ class App extends Component {
     const learningRate = this.state.hyperparameters.learningRate
     const numIterations = this.state.hyperparameters.numIterations
     const optimizerKey = this.state.hyperparameters.optimizer
-    const optimizer = Optimizers[optimizerKey]
+    const optimizer = Optimizers[optimizerKey](learningRate)
     const regressor = new PolynomialRegressor(degree, learningRate, optimizer)
 
     const fitted = await regressor.train(this.state.trainingData.xs, this.state.trainingData.ys, numIterations)
