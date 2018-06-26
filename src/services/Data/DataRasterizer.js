@@ -23,6 +23,23 @@ class DataRasterizer {
   }
 
   /**
+   * @static separateAxesToChartData - Converts two float 32 arrays into an array of {x, y} for charting.
+   *
+   * @param  {float32array} xValues The x values.
+   * @param  {float32array} yValues The y values.
+   * @return {Array} The chart data.
+   */
+  static separateAxesToChartData (xValues, yValues) {
+    const untypedXArray = Array.prototype.slice.call(xValues)
+    return untypedXArray.map((x, i) => {
+      return {
+        x: x,
+        y: yValues[i]
+      }
+    })
+  }
+
+  /**
    * @static rasterizePolynomial - Evaluates a polynomial over a range for charting
    *
    * @param  {Polynomial} polynomial The polynomial.

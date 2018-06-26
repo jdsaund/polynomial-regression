@@ -9,6 +9,7 @@ import Optimizers from './config/Optimizers'
 import generateData from './services/Data/DataSynthesizer'
 import PolynomialFactory from './services/PolynomialRegression/PolynomialFactory'
 import PolynomialRegressor from './services/PolynomialRegression/PolynomialRegressor'
+import work from 'webworkify-webpack'
 
 class App extends Component {
   constructor (props) {
@@ -20,6 +21,12 @@ class App extends Component {
       hyperparameters: Object.assign({}, Defaults),
       dataOptions: {degree: Defaults.degree}
     }
+
+    this.work = work(require.resolve('./workers/tfWorker.js'))
+    this.work.addEventListener('message', e => {
+      console.log(e.data)
+      return this.setState(e.data)
+    })
   }
 
   /**
@@ -29,14 +36,21 @@ class App extends Component {
     const degree = this.state.hyperparameters.degree
     const learningRate = this.state.hyperparameters.learningRate
     const numIterations = this.state.hyperparameters.numIterations
-    const optimizerKey = this.state.hyperparameters.optimizer
-    const optimizer = Optimizers[optimizerKey](learningRate)
-    const regressor = new PolynomialRegressor(degree, learningRate, optimizer)
+    // const optimizerKey = this.state.hyperparameters.optimizer
+    // const optimizer = Optimizers[optimizerKey](learningRate)
+    // const regressor = new PolynomialRegressor(degree, learningRate, optimizer)
+    //
+    // const fitted = await regressor.train(this.state.trainingData.xs, this.state.trainingData.ys, numIterations)
+    //
+    // this.setState({
+    //   fitted: fitted
+    // })
 
-    const fitted = await regressor.train(this.state.trainingData.xs, this.state.trainingData.ys, numIterations)
-
-    this.setState({
-      fitted: fitted
+    this.work.postMessage({
+      action: 'train',
+      learningRate: learningRate,
+      numIterations: numIterations,
+      degree: degree
     })
   }
 
@@ -69,9 +83,9 @@ class App extends Component {
    * @return {Promise} The Promise.
    */
   generate () {
-    const truePolynomial = PolynomialFactory.randomPolynomial(this.state.dataOptions.degree)
-    return this.setState({
-      trainingData: generateData(Defaults.numPoints, truePolynomial)
+    this.work.postMessage({
+      action: 'generateData',
+      degree: this.state.hyperparameters.degree
     })
   }
 
@@ -92,7 +106,7 @@ class App extends Component {
               <Data startGenerate={this.generate.bind(this)} onChange={this.updateDataOptions.bind(this)} />
             </Col>
             <Col s={6}>
-              <Output fitted={this.state.fitted} trainingData={this.state.trainingData} />
+              <Output prediction={this.state.prediction} trainingData={this.state.trainingData} />
             </Col>
             <Col s={3}>
               <Training onChange={this.train.bind(this)} />

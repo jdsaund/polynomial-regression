@@ -11,8 +11,7 @@ class Output extends Component {
     this.fittedChartData = null
     this.state = {
       datasets: [],
-      coefficients: [],
-      fitted: props.fitted
+      coefficients: []
     }
   }
 
@@ -25,8 +24,8 @@ class Output extends Component {
       this.updateTrainingInput()
     }
 
-    if (prevProps.fitted !== this.props.fitted) {
-      this.updateTrainingOutput(this.props.fitted)
+    if (prevProps.prediction !== this.props.prediction) {
+      this.updateTrainingOutput(this.props.trainingData.xs, this.props.prediction)
     }
   }
 
@@ -49,13 +48,11 @@ class Output extends Component {
    * @return {Promise} Promise to update the state.
    */
   updateTrainingInput () {
-    return DataRasterizer.tensorDataToChartData(this.props.trainingData.xs, this.props.trainingData.ys)
-      .then((data) => {
-        this.trainingChartData = ChartData('Training data', data)
-        return this.setState({
-          datasets: [this.trainingChartData]
-        })
-      })
+    const data = DataRasterizer.separateAxesToChartData(this.props.trainingData.xs, this.props.trainingData.ys)
+    this.trainingChartData = ChartData('Training data', data)
+    return this.setState({
+      datasets: [this.trainingChartData]
+    })
   }
 
   /**
@@ -63,17 +60,14 @@ class Output extends Component {
    *
    * @return {Promise} Promise to update the state.
    */
-  updateTrainingOutput (polynomial) {
-    if (polynomial) {
-      return DataRasterizer.rasterizePolynomial(polynomial)
-        .then(data => {
-          this.fittedChartData = ChartData('Fitted curve', data, 'red', true)
-          const datasets = [this.trainingChartData, this.fittedChartData]
-          return this.setState({
-            datasets: datasets
-          })
-        })
-    }
+  updateTrainingOutput (xs, ys) {
+    const data = DataRasterizer.separateAxesToChartData(xs, ys)
+
+    this.fittedChartData = ChartData('Fitted curve', data, 'red', false)
+    const datasets = [this.trainingChartData, this.fittedChartData]
+    this.setState({
+      datasets: datasets
+    })
   }
 }
 
