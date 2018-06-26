@@ -1,6 +1,6 @@
 const tf = require('@tensorflow/tfjs')
 
-module.exports = {
+const optimizers = {
   'SGD': (learningRate) => tf.train.sgd(learningRate),
   'Momentum': (learningRate) => tf.train.momentum(learningRate, 0.5),
   'AdaGrad': (learningRate) => tf.train.adagrad(learningRate),
@@ -9,3 +9,5 @@ module.exports = {
   'AdaMax': (learningRate) => tf.train.adamax(learningRate),
   'RMSProp': (learningRate) => tf.train.rmsprop(learningRate)
 }
+
+module.exports = Object.freeze(optimizers)

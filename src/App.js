@@ -17,7 +17,7 @@ class App extends Component {
     const truePolynomial = PolynomialFactory.randomPolynomial(Defaults.degree)
     this.state = {
       trainingData: generateData(Defaults.numPoints, truePolynomial),
-      hyperparameters: Defaults,
+      hyperparameters: Object.assign({}, Defaults),
       dataOptions: {degree: Defaults.degree}
     }
   }
