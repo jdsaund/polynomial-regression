@@ -1,4 +1,5 @@
 const tf = require('@tensorflow/tfjs')
+const PolynomialFactory = require('../PolynomialRegression/PolynomialFactory')
 
 /**
  * generateData - Generates a synthetic dataset.
@@ -7,7 +8,9 @@ const tf = require('@tensorflow/tfjs')
  * @param  {Polynomial} polynomial The polynomial to model from.
  * @return {object} The Data.
  */
-function generateData (numPoints, polynomial) {
+function generateData (numPoints) {
+  const polynomial = PolynomialFactory.randomPolynomial(this.state.dataOptions.degree)
+
   return tf.tidy(() => {
     const xs = tf.randomUniform([numPoints], -1, 1)
 

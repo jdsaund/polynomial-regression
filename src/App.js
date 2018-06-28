@@ -7,16 +7,14 @@ import Output from './containers/Output'
 import Defaults from './config/Defaults'
 import Optimizers from './config/Optimizers'
 import generateData from './services/Data/DataSynthesizer'
-import PolynomialFactory from './services/PolynomialRegression/PolynomialFactory'
 import PolynomialRegressor from './services/PolynomialRegression/PolynomialRegressor'
 
 class App extends Component {
   constructor (props) {
     super(props)
 
-    const truePolynomial = PolynomialFactory.randomPolynomial(Defaults.degree)
     this.state = {
-      trainingData: generateData(Defaults.numPoints, truePolynomial),
+      trainingData: generateData(Defaults.numPoints),
       hyperparameters: Object.assign({}, Defaults),
       dataOptions: {degree: Defaults.degree}
     }
@@ -69,9 +67,8 @@ class App extends Component {
    * @return {Promise} The Promise.
    */
   generate () {
-    const truePolynomial = PolynomialFactory.randomPolynomial(this.state.dataOptions.degree)
     return this.setState({
-      trainingData: generateData(Defaults.numPoints, truePolynomial)
+      trainingData: generateData(Defaults.numPoints)
     })
   }
 
