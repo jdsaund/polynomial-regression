@@ -4,12 +4,12 @@ const PolynomialFactory = require('../PolynomialRegression/PolynomialFactory')
 /**
  * generateData - Generates a synthetic dataset.
  *
+ * @param  {int} degree The degree of the polynomial.
  * @param  {int} numPoints The number of samples.
- * @param  {Polynomial} polynomial The polynomial to model from.
  * @return {object} The Data.
  */
-function generateData (numPoints) {
-  const polynomial = PolynomialFactory.randomPolynomial(this.state.dataOptions.degree)
+function generateData (degree, numPoints) {
+  const polynomial = PolynomialFactory.randomPolynomial(degree)
 
   return tf.tidy(() => {
     const xs = tf.randomUniform([numPoints], -1, 1)

@@ -38,16 +38,13 @@ class PolynomialRegressor {
    *
    * @param  {Tensor} xs The input values of the dataset.
    * @param  {Tensor} ys The output values of the dataset.
-   * @param  {int} numIterations The number of training iterations.
    */
-  async train (xs, ys, numIterations) {
-    for (let iter = 0; iter < numIterations; iter++) {
-      this._optimizer.minimize(() => {
-        // Feed the examples into the model
-        const pred = this._predict(xs)
-        return this._loss(pred, ys)
-      })
-    }
+  async train (xs, ys) {
+    await this._optimizer.minimize(() => {
+      // Feed the examples into the model
+      const pred = this._predict(xs)
+      return this._loss(pred, ys)
+    })
 
     return this._params
   }

@@ -14,27 +14,50 @@ class App extends Component {
     super(props)
 
     this.state = {
-      trainingData: generateData(Defaults.numPoints),
+      trainingData: generateData(Defaults.degree, Defaults.numPoints),
       hyperparameters: Object.assign({}, Defaults),
       dataOptions: {degree: Defaults.degree}
     }
   }
 
   /**
-   * async train - Trains the model
+   * trainingIteration - Does a training iteration so that the view can see progress.
    */
-  async train () {
+  trainingIteration (regressor, iterations, shouldSetState) {
+    let timeout = 0
+
+    setTimeout(() => {
+      regressor.train(this.state.trainingData.xs, this.state.trainingData.ys)
+        .then(fitted => {
+          this.setState({
+            // react doesn't like updating the state with the same memory address in a loop
+            fitted: iterations % 2 === 0 ? fitted : null,
+            isTraining: iterations > 0
+          })
+
+          console.log(this.state.isTraining)
+
+          if (iterations > 0) this.trainingIteration(regressor, iterations - 1, shouldSetState)
+        })
+    }, timeout)
+  }
+
+  /**
+   * train - Trains the model
+   */
+  train () {
+    if (this.state.isTraining) return
     const degree = this.state.hyperparameters.degree
     const learningRate = this.state.hyperparameters.learningRate
-    const numIterations = this.state.hyperparameters.numIterations
+    let numIterations = this.state.hyperparameters.numIterations
     const optimizerKey = this.state.hyperparameters.optimizer
     const optimizer = Optimizers[optimizerKey](learningRate)
     const regressor = new PolynomialRegressor(degree, learningRate, optimizer)
 
-    const fitted = await regressor.train(this.state.trainingData.xs, this.state.trainingData.ys, numIterations)
-
     this.setState({
-      fitted: fitted
+      isTraining: true
+    }, () => {
+      this.trainingIteration(regressor, numIterations)
     })
   }
 
@@ -68,7 +91,7 @@ class App extends Component {
    */
   generate () {
     return this.setState({
-      trainingData: generateData(Defaults.numPoints)
+      trainingData: generateData(this.state.dataOptions.degree, Defaults.numPoints)
     })
   }
 

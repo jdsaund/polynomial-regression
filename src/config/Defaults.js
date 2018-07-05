@@ -1,7 +1,7 @@
 const defaults = {
   degree: 3,
-  learningRate: 0.25,
-  numIterations: 500,
+  learningRate: 0.75,
+  numIterations: 250,
   numPoints: 1000,
   optimizer: 'SGD'
 }
