@@ -5,37 +5,34 @@ import Data from './containers/Data'
 import Training from './containers/Training'
 import Output from './containers/Output'
 import Defaults from './config/Defaults'
-import Optimizers from './config/Optimizers'
-import generateData from './services/Data/DataSynthesizer'
-import PolynomialRegressor from './services/PolynomialRegression/PolynomialRegressor'
+import ChartableRegressor from './services/PolynomialRegression/ChartableRegressor'
 
 class App extends Component {
   constructor (props) {
     super(props)
 
+    this.regressor = new ChartableRegressor()
+
     this.state = {
-      trainingData: generateData(Defaults.numPoints),
       hyperparameters: Object.assign({}, Defaults),
-      dataOptions: {degree: Defaults.degree}
+      dataOptions: {degree: Defaults.degree, numPoints: Defaults.numPoints}
     }
+
+    this.generate()
   }
 
   /**
    * async train - Trains the model
    */
-  async train () {
-    const degree = this.state.hyperparameters.degree
-    const learningRate = this.state.hyperparameters.learningRate
-    const numIterations = this.state.hyperparameters.numIterations
-    const optimizerKey = this.state.hyperparameters.optimizer
-    const optimizer = Optimizers[optimizerKey](learningRate)
-    const regressor = new PolynomialRegressor(degree, learningRate, optimizer)
+  train () {
+    const {degree, learningRate, numIterations, optimizer} = this.state.hyperparameters
 
-    const fitted = await regressor.train(this.state.trainingData.xs, this.state.trainingData.ys, numIterations)
-
-    this.setState({
-      fitted: fitted
-    })
+    this.regressor.train(numIterations, degree, learningRate, optimizer)
+      .then(data => {
+        this.setState({
+          fittedData: data
+        })
+      })
   }
 
   /**
@@ -67,9 +64,12 @@ class App extends Component {
    * @return {Promise} The Promise.
    */
   generate () {
-    return this.setState({
-      trainingData: generateData(Defaults.numPoints)
-    })
+    this.regressor.generateData(this.state.dataOptions.degree, this.state.dataOptions.numPoints)
+      .then(data => {
+        this.setState({
+          trainingData: data
+        })
+      })
   }
 
   render () {
@@ -89,7 +89,7 @@ class App extends Component {
               <Data startGenerate={this.generate.bind(this)} onChange={this.updateDataOptions.bind(this)} />
             </Col>
             <Col s={6}>
-              <Output fitted={this.state.fitted} trainingData={this.state.trainingData} />
+              <Output fittedData={this.state.fittedData} trainingData={this.state.trainingData} />
             </Col>
             <Col s={3}>
               <Training onChange={this.train.bind(this)} />

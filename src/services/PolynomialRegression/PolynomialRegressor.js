@@ -1,56 +1,52 @@
-const tf = require('@tensorflow/tfjs')
+const Optimizers = require('../../config/Optimizers')
 const PolynomialFactory = require('./PolynomialFactory')
+
+/**
+ * predict - Creates a tensor of values based on the current parameters
+ *
+ * @param  {Tensor} x The input values.
+ * @return {Tensor}   The output values.
+ */
+function predict (params, x) {
+  return params.evaluateTensor(x)
+}
+
+/**
+ * loss - The loss function for polynomial regression.
+ *
+ * @param  {Tensor} prediction The predicted values.
+ * @param  {Tensor} labels     The actual values.
+ * @return {Tensor}            The loss value.
+ */
+function loss (prediction, labels) {
+  return prediction.sub(labels).square().mean()
+}
 
 class PolynomialRegressor {
   /**
-   * Creates a PolynomialRegressor.
-   */
-  constructor (degree, learningRate = 0.5, optimizer = tf.train.sgd(learningRate)) {
-    this._learningRate = learningRate
-    this._optimizer = optimizer
-
-    this._params = PolynomialFactory.trainingPolynomial(degree)
-  }
-
-  /**
-   * predict - Creates a tensor of values based on the current parameters
-   *
-   * @param  {Tensor} x The input values.
-   * @return {Tensor}   The output values.
-   */
-  _predict (x) {
-    return this._params.evaluateTensor(x)
-  }
-
-  /**
-   * loss - The loss function for polynomial regression.
-   *
-   * @param  {Tensor} prediction The predicted values.
-   * @param  {Tensor} labels     The actual values.
-   * @return {Tensor}            The loss value.
-   */
-  _loss (prediction, labels) {
-    return prediction.sub(labels).square().mean()
-  }
-
-  /**
    * async train - Trains the model.
    *
-   * @param  {Tensor} xs The input values of the dataset.
-   * @param  {Tensor} ys The output values of the dataset.
+   * @param  {Tensor} xs The x values of the dataset.
+   * @param  {Tensor} ys The y values of the dataset.
    * @param  {int} numIterations The number of training iterations.
+   * @param  {int} degree The degrees.
+   * @param  {int} learningRate The learningRate.
+   * @param  {int} optimizerKey The optimizerKey.
+   * @return {Polynomial} The polynomial.
    */
-  async train (xs, ys, numIterations) {
+  static train (xs, ys, numIterations, degree, learningRate, optimizerKey) {
+    const optimizer = Optimizers[optimizerKey](learningRate)
+    const params = PolynomialFactory.trainingPolynomial(degree)
     for (let iter = 0; iter < numIterations; iter++) {
-      this._optimizer.minimize(() => {
+      optimizer.minimize(() => {
         // Feed the examples into the model
-        const pred = this._predict(xs)
-        return this._loss(pred, ys)
+        const pred = predict(params, xs)
+        return loss(pred, ys)
       })
     }
 
-    return this._params
+    return params
   }
 }
 
-export default PolynomialRegressor
+module.exports = PolynomialRegressor
