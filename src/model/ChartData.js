@@ -5,7 +5,7 @@ const ChartData = (label, data, colour = 'teal', showLine = false) => {
     showLine: showLine,
     backgroundColor: colour,
     pointBorderColor: colour,
-    pointBackgroundColor: '#fff',
+    pointBackgroundColor: colour,
     pointBorderWidth: 1,
     pointHoverRadius: 5,
     pointHoverBackgroundColor: colour,

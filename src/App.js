@@ -33,10 +33,9 @@ class App extends Component {
           this.setState({
             // react doesn't like updating the state with the same memory address in a loop
             fitted: iterations % 2 === 0 ? fitted : null,
-            isTraining: iterations > 0
+            isTraining: iterations > 0,
+            currentIteration: this.state.hyperparameters.numIterations - iterations
           })
-
-          console.log(this.state.isTraining)
 
           if (iterations > 0) this.trainingIteration(regressor, iterations - 1)
         })
@@ -124,7 +123,11 @@ class App extends Component {
               <Output fitted={this.state.fitted} trainingData={this.state.trainingData} />
             </Col>
             <Col s={3}>
-              <Training onChange={this.train.bind(this)} isTraining={this.state.isTraining} />
+              <Training
+                onChange={this.train.bind(this)}
+                isTraining={this.state.isTraining}
+                currentIteration={this.state.currentIteration}
+                totalIterations={this.state.hyperparameters.numIterations} />
             </Col>
           </Row>
         </div>
