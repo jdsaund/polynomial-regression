@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Row, Icon, Button} from 'react-materialize'
+import { Row, Button } from 'react-materialize'
 
 class Training extends Component {
   onClick (event) {
@@ -14,8 +14,8 @@ class Training extends Component {
         </Row>
         <div className='card-panel'>
           <Row>
-            <Button waves='light' onClick={this.onClick.bind(this)}>
-              Train<Icon right>play_arrow</Icon>
+            <Button waves='light' onClick={this.onClick.bind(this)} className={this.props.isTraining ? 'red' : 'teal'}>
+              {this.props.isTraining ? 'Stop' : 'Train'}
             </Button>
           </Row>
         </div>

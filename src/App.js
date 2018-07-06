@@ -14,6 +14,7 @@ class App extends Component {
     super(props)
 
     this.state = {
+      shouldStopTraining: false,
       trainingData: generateData(Defaults.degree, Defaults.numPoints),
       hyperparameters: Object.assign({}, Defaults),
       dataOptions: {degree: Defaults.degree}
@@ -23,8 +24,8 @@ class App extends Component {
   /**
    * trainingIteration - Does a training iteration so that the view can see progress.
    */
-  trainingIteration (regressor, iterations, shouldSetState) {
-    let timeout = 0
+  trainingIteration (regressor, iterations) {
+    if (this.state.shouldStopTraining) iterations = 0
 
     setTimeout(() => {
       regressor.train(this.state.trainingData.xs, this.state.trainingData.ys)
@@ -37,16 +38,23 @@ class App extends Component {
 
           console.log(this.state.isTraining)
 
-          if (iterations > 0) this.trainingIteration(regressor, iterations - 1, shouldSetState)
+          if (iterations > 0) this.trainingIteration(regressor, iterations - 1)
         })
-    }, timeout)
+    }, 0)
   }
 
   /**
    * train - Trains the model
    */
   train () {
-    if (this.state.isTraining) return
+    if (this.state.isTraining) {
+      this.setState({
+        shouldStopTraining: true
+      })
+
+      return
+    }
+
     const degree = this.state.hyperparameters.degree
     const learningRate = this.state.hyperparameters.learningRate
     let numIterations = this.state.hyperparameters.numIterations
@@ -55,6 +63,7 @@ class App extends Component {
     const regressor = new PolynomialRegressor(degree, learningRate, optimizer)
 
     this.setState({
+      shouldStopTraining: false,
       isTraining: true
     }, () => {
       this.trainingIteration(regressor, numIterations)
@@ -115,7 +124,7 @@ class App extends Component {
               <Output fitted={this.state.fitted} trainingData={this.state.trainingData} />
             </Col>
             <Col s={3}>
-              <Training onChange={this.train.bind(this)} />
+              <Training onChange={this.train.bind(this)} isTraining={this.state.isTraining} />
             </Col>
           </Row>
         </div>
